@@ -1,0 +1,71 @@
+## faster_rcnn_r50_fpn_1x
+python tools/train.py configs/faster_rcnn_r50_fpn_1x.py --gpus 1 --validate
+python tools/test.py configs/faster_rcnn_r50_fpn_1x.py work_dirs/faster_rcnn_r50_fpn_1x/latest.pth --out ./test_result/faster_rcnn_r50_fpn_1x/latest.pkl --eval bbox 
+python inference_demo.py --in /media/watson/Documents/tianchi/cervical/dataset/coco_dataset/val --out /media/watson/Documents/tianchi/cervical/dataset/coco_dataset/inference 
+python tools/analyze_logs.py plot_curve work_dirs/faster_rcnn_r50_fpn_1x/20191023_154318.log.json \
+                                        work_dirs/faster_rcnn_r50_fpn_1x/20191111_190015.log.json \
+                                        work_dirs/faster_rcnn_r50_fpn_1x/20191112_170006.log.json \
+                                        --keys acc \
+                                        --title acc \
+                                        --legend epoch1 epoch12 epoch24
+python tools/analyze_logs.py plot_curve work_dirs/faster_rcnn_r50_fpn_1x/20191111_190015.log.json --keys acc loss --out result.jpg
+
+
+## mask_rcnn_r50_fpn_1x
+python tools/train.py configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py 
+python tools/test.py configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco.py work_dirs/mask_rcnn_r50_fpn_1x_coco/latest.pth --out ./test_result/mask_rcnn_r50_fpn_1x_coco/latest.pkl --eval bbox segm 
+python tools/analyze_logs.py plot_curve work_dirs/mask_rcnn_r50_fpn_1x_coco/20201006_191302.log.json --keys loss
+python tools/robustness_eval.py  work_dirs/mask_rcnn_r50_fpn_1x_coco_senet/20201210_105323.log.json
+
+
+## mask_rcnn_r50_fpn_dconv_c3-c5_1x_coco
+python tools/train.py configs/dcn/mask_rcnn_r50_fpn_dconv_c3-c5_1x_coco.py 
+python tools/test.py configs/dcn/mask_rcnn_r50_fpn_dconv_c3-c5_1x_coco.py work_dirs/mask_rcnn_r50_fpn_dconv_c3-c5_1x_coco/latest.pth --out ./test_result/mask_rcnn_r50_fpn_dconv_c3-c5_1x_coco/latest.pkl --eval bbox segm 
+
+
+## mask_rcnn_r50_fpn_1x_senet
+python tools/train.py configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco_senet.py 
+python tools/test.py configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco_senet.py work_dirs/mask_rcnn_r50_fpn_1x_coco_senet/latest.pth --out ./test_result/mask_rcnn_r50_fpn_1x_coco_senet/latest.pkl --eval bbox segm 
+python tools/analyze_logs.py plot_curve \
+                            work_dirs/mask_rcnn_r50_fpn_1x_coco/20201006_191302.log.json \
+                            work_dirs/mask_rcnn_r50_fpn_1x_coco_senet/20201210_105323.log.json \
+                            --keys loss
+python tools/analyze_logs.py plot_curve \
+                            work_dirs/mask_rcnn_r50_fpn_1x_coco_senet/20201210_105323.log.json \
+                            --keys acc\
+                            --legend acc
+
+
+## mask_rcnn_r50_fpn_1x_dcn_senet
+python tools/train.py configs/mask_rcnn/mask_rcnn_r50_fpn_1x_coco_dcn_senet.py 
+
+
+## mask_rcnn_r101_fpn_1x
+python tools/train.py configs/mask_rcnn_r101_fpn_1x.py --validate
+python tools/test.py configs/mask_rcnn_r101_fpn_1x.py work_dirs/mask_rcnn_r101_fpn_1x/latest.pth --out ./test_result/mask_rcnn_r101_fpn_1x/latest.pkl --eval bbox segm --show 
+
+## faster_rcnn_r50_fpn_1x
+python tools/train.py configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py
+python tools/test.py configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py work_dirs/faster_rcnn_r50_fpn_1x_coco/latest.pth --out ./test_result/faster_rcnn_r50_fpn_1x_coco/latest.pkl --eval bbox 
+
+##YOLO
+python tools/train.py configs/yolo/yolov3_d53_mstrain-608_273e_coco.py --resume-from work_dirs/yolov3_d53_mstrain-608_273e_coco/epoch_200.pth
+python tools/test.py configs/yolo/yolov3_d53_mstrain-608_273e_coco.py work_dirs/yolov3_d53_mstrain-608_273e_coco/latest.pth --out ./test_result/yolov3_d53_mstrain-608_273e_coco/latest.pkl --eval bbox 
+python tools/analyze_logs.py plot_curve work_dirs/yolov3_d53_mstrain-608_273e_coco/20201008_192024.log.json \
+                                        work_dirs/yolov3_d53_mstrain-608_273e_coco/20201008_204802.log.json \
+                                        work_dirs/yolov3_d53_mstrain-608_273e_coco/20201009_081229.log.json \
+                                        --keys loss
+
+## SSD300
+python tools/train.py configs/ssd/ssd300_coco.py
+python tools/test.py configs/ssd/ssd300_coco.py work_dirs/ssd300_coco/latest.pth --out ./test_result/ssd300_coco/latest.pkl --eval bbox 
+python tools/analyze_logs.py plot_curve work_dirs/ssd300_coco/20201021_104953.log.json \
+                                        work_dirs/ssd300_coco_1x_slr/20201021_100814.log.json \
+                                        work_dirs/ssd300_coco_2x_trainx1/20201008_183100.log.json \
+                                        --keys loss_bbox \
+                                        --legend 1x_lr=0.00025 1x_lr=0.0025 2x_lr=0.00025
+
+
+## RetinaNet
+python tools/train.py configs/retinanet/retinanet_r50_fpn_1x_coco.py
+python tools/test.py configs/retinanet/retinanet_r50_fpn_1x_coco.py work_dirs/retinanet_r50_fpn_1x_coco/latest.pth --out ./test_result/retinanet_r50_fpn_1x_coco/latest.pkl --eval bbox 
